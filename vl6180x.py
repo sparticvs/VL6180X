@@ -35,8 +35,8 @@ class Sensor:
         self.myWrite16(0x0208, 0x01)
         self.myWrite16(0x0096, 0x00)
         self.myWrite16(0x0097, 0xfd)
-        self.myWrite16(0x00e3, 0x00)
-        self.myWrite16(0x00e4, 0x04)
+        self.myWrite16(0x00e3, 0x01)
+        self.myWrite16(0x00e4, 0x03)
         self.myWrite16(0x00e5, 0x02)
         self.myWrite16(0x00e6, 0x01)
         self.myWrite16(0x00e7, 0x03)
@@ -68,7 +68,8 @@ class Sensor:
     def default_settings(self):
         # Enables polling for ‘New Sample ready’ when measurement completes
         self.myWrite16(0x0011, 0x10)
-        self.myWrite16(0x010A, 0x30)  # Set Avg sample period
+        #self.myWrite16(0x010A, 0x30)  # Set Avg sample period
+        self.myWrite16(0x010A, 0x7F) # Set Avg Sample Period to 128 samples (8.256)
         self.myWrite16(0x003f, 0x46)  # Set the ALS gain
         self.myWrite16(0x0031, 0xFF)  # Set auto calibration period
         # (Max = 255)/(OFF = 0)
@@ -85,7 +86,8 @@ class Sensor:
         # Ready threshold event’
 
         # Additional settings defaults from community
-        self.myWrite16(0x001C, 0x32)  # Max convergence time
+        #self.myWrite16(0x001C, 0x32)  # Max convergence time
+        self.myWrite16(0x001C, 0x3F) # Max max-convergence time
         self.myWrite16(0x002D, 0x10 | 0x01)  # Range check enables
         self.myWrite16(0x0022, 0x7B)  # Eraly coinvergence estimate
         self.myWrite16(0x0120, 0x01)  # Firmware result scaler
@@ -107,7 +109,7 @@ class Sensor:
             return self._address
         if not 8 <= address <= 127:
             raise ValueError("Wrong address")
-        self._set_reg8(0x0212, address)
+        self.myWrite16(0x0212, address)
         self._address = address
 
     def range(self):
