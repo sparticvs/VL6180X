@@ -69,7 +69,7 @@ class Sensor:
         # Enables polling for ‘New Sample ready’ when measurement completes
         self.myWrite16(0x0011, 0x10)
         #self.myWrite16(0x010A, 0x30)  # Set Avg sample period
-        self.myWrite16(0x010A, 0xFF) # Set Avg Sample Period to 128 samples (8.256)
+        self.myWrite16(0x010A, 0x0F) # Set Avg Sample Period to 15 samples
         self.myWrite16(0x003f, 0x46)  # Set the ALS gain
         self.myWrite16(0x0031, 0xFF)  # Set auto calibration period
         # (Max = 255)/(OFF = 0)
